@@ -23,6 +23,23 @@
           document.getElementById("authenticity_token").value = this.getMetaContents('csrf-token');
 
           this.iframe = document.getElementById("hidden_upload");
+
+          var styles = tinyMCEPopup.getParam("styles", "");
+          var elSel = document.getElementById('default_size');
+          for (var style in styles) {
+            if (styles.hasOwnProperty(style)) {
+              var elOptNew = document.createElement('option');
+              elOptNew.text = styles[style];
+              elOptNew.value = style;
+              var elOptOld = elSel.options[elSel.selectedIndex];  
+              try {
+                elSel.add(elOptNew, elOptOld); // standards compliant; doesn't work in IE
+              }
+              catch(ex) {
+                elSel.add(elOptNew, elSel.selectedIndex); // IE only
+              }
+            }
+          }
         },
 
         insert: function() {
@@ -74,8 +91,14 @@
           var default_class = tinyMCEPopup.getParam("uploadimage_default_img_class", "");
           var alt_text = document.getElementById("alt_text").value;
 
-          var imgstr = "<img src='" + json["image"]["url"] + "'";
-
+          var imgstr = "<span class='uploadimage_item";
+            
+          if(json["image"]["alignment"])
+            imgstr += " " + json["image"]["alignment"];
+            
+          imgstr += "'>";
+          imgstr += "<img src='" + json["image"]["url"] + "'";
+            
           if(default_class != "")
             imgstr += " class='" + default_class + "'";
 
@@ -84,7 +107,7 @@
           if(json["image"]["width"])
             imgstr += " width='"  + json["image"]["width"]  + "'";
 
-          imgstr += " alt='" + alt_text + "'/>";
+          imgstr += " alt='" + alt_text + "'/></span>";
 
           return imgstr;
         },
@@ -102,7 +125,7 @@
             var cn = label.className;
             if(cn.indexOf(className) == -1) {
               if(cn != '')
-              	className = ' ' + className;
+                className = ' ' + className;
               label.className = cn + className;
             }
           }
@@ -131,11 +154,33 @@
       <input type="hidden" name="hint" id="hint" value="#replaceme">
       <iframe id="hidden_upload" name="hidden_upload" src="javascript:void(0)" style='width:0;height:0;border:0px solid #fff'></iframe>
 
-      <label id='file_upload_label' for='file_upload'>{#uploadimage_dlg.input}:</label>
-      <input type='file' name='file' id='file_upload'>
-      <p id="error_message"></p>
-      <label id='alt_text_label' for='alt_text'>{#uploadimage_dlg.alt_text}:</label>
-      <input type="text" name="alt" id="alt_text">
+      <table border="0" cellpadding="4" cellspacing="0">
+        <tr>
+          <td>{#uploadimage_dlg.input}:</td>
+          <td><input type="file" name='file' class="file_upload" id="file_upload"></td>
+        </tr>
+        <tr>
+          <td>Image Alt Value:</td>
+          <td><input type="text" name="alt" id="alt_text"></td>
+        </tr>
+        <tr>
+          <td>Image Size:</td>
+          <td>
+            <select id="default_size" name="default_size">
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Alignment:</td>
+          <td>
+            <select name="alignment">
+              <option value="uploadimage_aleft">Left</option>
+              <option value="uploadimage_aright">Right</option>
+              <option value="uploadimage_acenter">Center</option>
+            </select>
+          </td>
+        </tr>
+      </table>
 
       <div class="mceActionPanel">
         <input type="button" id="insert" name="insert" value="{#uploadimage_dlg.insert}" onclick="UploadImageDialog.insert();"/>

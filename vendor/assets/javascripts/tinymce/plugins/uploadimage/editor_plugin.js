@@ -6,7 +6,7 @@
         return ed.windowManager.open({
           file: url + '/dialog.html',
           width: 350 + parseInt(ed.getLang('uploadimage.delta_width', 0)),
-          height: 180 + parseInt(ed.getLang('uploadimage.delta_height', 0)),
+          height: 220 + parseInt(ed.getLang('uploadimage.delta_height', 0)),
           inline: 1
         }, {
           plugin_url: url
