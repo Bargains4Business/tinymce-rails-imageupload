@@ -10,13 +10,14 @@ Gem::Specification.new do |s|
   s.homepage    = "http://eastblue.org/oss"
   s.summary     = %q{TinyMCE plugin for taking image uploads in Rails >= 3.1}
   s.description = %q{TinyMCE plugin for taking image uploads in Rails >= 3.1}
+  s.licenses    = "MIT"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency     "railties",      ">= 3.1"
-  s.add_runtime_dependency     "tinymce-rails", ">= 3.4.9"
-  s.add_development_dependency "bundler",       "~> 1.0.0"
+  s.add_runtime_dependency     "tinymce-rails", "~> 3.5.8.1"
+  s.add_development_dependency "bundler",       "~> 1.0"
   s.add_development_dependency "rails",         ">= 3.1"
 end
