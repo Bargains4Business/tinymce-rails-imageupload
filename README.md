@@ -18,7 +18,7 @@ For TinyMCE4 support, use the master branch.
 
 ### Add the gem to your Gemfile
 
-    gem 'tinymce-rails-imageupload', '~> 3.5.8'
+    gem 'tinymce-rails-imageupload', '~> 3.5.11'
 
 ### Set up TinyMCE as you would normally, but in the call to `.tinymce()`, add
 
