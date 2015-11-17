@@ -1,16 +1,20 @@
 (->
   tinymce.PluginManager.requireLangPack('uploadimage')
+  currentOrigin = (url)->
+    parts    = url.split(/\/\/?/)
+    parts[1] = location.origin
+    parts.slice(1).join("/")
 
   tinymce.create 'tinymce.plugins.UploadImagePlugin', {
     init: (ed, url) ->
       ed.addCommand 'mceUploadImage', ->
         ed.windowManager.open {
-            file:   url + '/dialog.html',
+            file:   currentOrigin(url) + '/dialog.html',
             width:  350 + parseInt(ed.getLang('uploadimage.delta_width', 0)),
             height: 220 + parseInt(ed.getLang('uploadimage.delta_height', 0)),
             inline: 1
           }, {
-            plugin_url: url
+            plugin_url: currentOrigin(url)
           }
 
       ed.addButton 'uploadimage', {
