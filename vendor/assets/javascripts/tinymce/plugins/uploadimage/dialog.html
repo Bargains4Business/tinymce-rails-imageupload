@@ -31,7 +31,7 @@
               var elOptNew = document.createElement('option');
               elOptNew.text = styles[style];
               elOptNew.value = style;
-              var elOptOld = elSel.options[elSel.selectedIndex];  
+              var elOptOld = elSel.options[elSel.selectedIndex];
               try {
                 elSel.add(elOptNew, elOptOld); // standards compliant; doesn't work in IE
               }
@@ -90,15 +90,21 @@
         buildHTML: function(json) {
           var default_class = tinyMCEPopup.getParam("uploadimage_default_img_class", "");
           var alt_text = document.getElementById("alt_text").value;
+          var showPopup = document.getElementById("popup").value;
 
-          var imgstr = "<span class='uploadimage_item";
-            
+          var imgstr = "<span class='";
+
           if(json["image"]["alignment"])
-            imgstr += " " + json["image"]["alignment"];
-            
+            imgstr += json["image"]["alignment"];
+
           imgstr += "'>";
+
+          if(showPopup)
+            imgstr += "<a class='fancybox' rel='content-gallery nofollow' title='" + alt_text + "' href='";
+            imgstr += json["image"]["original_url"] + "'>";
+
           imgstr += "<img src='" + json["image"]["url"] + "'";
-            
+
           if(default_class != "")
             imgstr += " class='" + default_class + "'";
 
@@ -107,7 +113,12 @@
           if(json["image"]["width"])
             imgstr += " width='"  + json["image"]["width"]  + "'";
 
-          imgstr += " alt='" + alt_text + "'/></span>";
+          imgstr += " alt='" + alt_text + "'/>";
+
+          if(showPopup)
+            imgstr += "</a>";
+
+          imgstr += "</span>";
 
           return imgstr;
         },
@@ -169,6 +180,10 @@
             <select id="default_size" name="default_size">
             </select>
           </td>
+        </tr>
+        <tr>
+          <td>Show Popup?</td>
+          <td><input type="checkbox" name="popup" id="popup"></td>
         </tr>
         <tr>
           <td>Alignment:</td>
