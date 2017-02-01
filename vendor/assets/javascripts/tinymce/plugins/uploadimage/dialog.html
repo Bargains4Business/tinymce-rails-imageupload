@@ -100,8 +100,7 @@
           imgstr += "'>";
 
           if(showPopup)
-            imgstr += "<a class='fancybox' rel='content-gallery nofollow' title='" + alt_text + "' href='";
-            imgstr += json["image"]["original_url"] + "'>";
+            imgstr += "<a class='fancybox' rel='content-gallery nofollow' title='" + alt_text + "' href='" + json["image"]["original_url"] + "'>";
 
           imgstr += "<img src='" + json["image"]["url"] + "'";
 
